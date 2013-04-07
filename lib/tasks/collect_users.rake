@@ -1,7 +1,6 @@
 namespace :merge do
   desc "Collect users from repositories and save info in the db"
   task :collect_users => :environment do
-    require File.join Rails.root.to_s,'config','boot'
     DataMapper.auto_upgrade!
     settings= YAML.load File.read(File.join(Rails.root.to_s,'config','database.yml'))
     users={}
