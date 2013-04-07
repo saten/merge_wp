@@ -1,0 +1,31 @@
+defaults: &defaults
+  adapter: sqlite3
+
+development:
+  database: db/project_name_development.db
+  <<: *defaults
+
+  repositories:
+    source1:
+      adapter: mysql
+      host: localhost
+      port: 3306
+      database: 'wpdevel_dev'
+      user: 'root'
+      password: 'a'
+
+    source2:
+      adapter: mysql
+      host: localhost
+      port: 3306
+      database: 'wpdevel_dev_2'
+      user: 'root'
+      password: 'a'
+
+    destination:
+      adapter: mysql
+      host: localhost
+      port: 3306
+      database: 'teamartist_com_devel'
+      user: 'root'
+      password: 'a'
