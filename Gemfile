@@ -53,7 +53,7 @@ end
 
 gem 'jquery-rails', '~> 2.0.1'
 
-
+gem 'therubyracer'
 gem 'settingslogic'
 
 # To use ActiveModel has_secure_password
