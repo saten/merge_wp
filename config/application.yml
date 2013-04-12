@@ -1,0 +1,5 @@
+development:
+  wp_domain: wpdevel.loc
+
+production:
+  wp_domain: teamartist.com
