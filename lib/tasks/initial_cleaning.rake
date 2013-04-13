@@ -2,7 +2,7 @@ require 'pp'
 namespace :merge do
   desc "Rimuove il blog con blog_id 1 e l'utente con id 1"
   task :initial_cleaning => :environment do 
-    DataMapper::Logger.new(STDOUT) if Rails.env.to_s.eql? 'development'
+    DataMapper::Logger.new(STDOUT)# if Rails.env.to_s.eql? 'development'
     puts "Specifica un repo come REPO=nome " and exit unless ENV['REPO']
     repo = ENV['REPO']      
     DataMapper.auto_upgrade!
@@ -33,7 +33,7 @@ namespace :merge do
     DataMapper.repository(repo) do
         Wp::Blog.all.each do |blog|
             new_domain = blog.domain.sub /\..*/, ".#{Settings.wp_domain}"
-            adapter.execute "UPDATE wp_#{blog.blog_id}_options SET option_value = replace(option_value, '#{blog.domain}', '#{new_domain}') WHERE option_name = 'home' OR option_name = 'siteurl';"
+            adapter.execute "UPDATE wp_#{blog.blog_id}_options SET option_value = REPLACE(option_value, '#{blog.domain}', '#{new_domain}') WHERE option_name = 'home' OR option_name = 'siteurl';"
             adapter.execute "UPDATE wp_#{blog.blog_id}_posts SET guid = REPLACE (guid, '#{blog.domain}', '#{new_domain}');"
             adapter.execute "UPDATE wp_#{blog.blog_id}_posts SET post_content = REPLACE (post_content, '#{blog.domain}', '#{new_domain}');"
             adapter.execute "UPDATE wp_#{blog.blog_id}_postmeta SET meta_value = REPLACE (meta_value, '#{blog.domain}','http#{new_domain}');"
