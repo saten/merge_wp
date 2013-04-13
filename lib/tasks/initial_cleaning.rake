@@ -23,12 +23,6 @@ namespace :merge do
     table_names_for_dropping= table_names.grep(/_[0-9]+_/).find_all{|tn| tn =~ /poll/}
     adapter.execute("DROP TABLE IF EXISTS #{table_names_for_dropping.join(',')}") if table_names_for_dropping.any?
 
-    #al volo invece che blog per blog
-    adapter.execute "UPDATE wp_blogs SET domain = REPLACE(domain,'wpsport.com','#{Settings.wp_domain}');"
-    adapter.execute "UPDATE wp_blogs SET domain = REPLACE(domain,'wpevery.com','#{Settings.wp_domain}');"
-    adapter.execute "UPDATE wp_blogs SET domain = REPLACE(domain,'wpdevel.org','#{Settings.wp_domain}');"
-    #adapter.execute "UPDATE wp_blogs SET domain = REPLACE(domain,'wpdevel.loc','#{Settings.wp_domain}');"
-
     #migrazione indirizzo
     DataMapper.repository(repo) do
         Wp::Blog.all.each do |blog|
@@ -39,5 +33,13 @@ namespace :merge do
             adapter.execute "UPDATE wp_#{blog.blog_id}_postmeta SET meta_value = REPLACE (meta_value, '#{blog.domain}','http#{new_domain}');"
         end
     end
+    #al volo invece che blog per blog
+    adapter.execute "UPDATE wp_blogs SET domain = REPLACE(domain,'wpsport.com','#{Settings.wp_domain}');"
+    adapter.execute "UPDATE wp_blogs SET domain = REPLACE(domain,'wpevery.com','#{Settings.wp_domain}');"
+    adapter.execute "UPDATE wp_blogs SET domain = REPLACE(domain,'wpdevel.org','#{Settings.wp_domain}');"
+    #adapter.execute "UPDATE wp_blogs SET domain = REPLACE(domain,'wpdevel.loc','#{Settings.wp_domain}');"
+
+
+
   end
 end
